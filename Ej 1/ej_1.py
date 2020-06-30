@@ -43,31 +43,7 @@ def ej1():
     t_total_p1 = t_total_u1 + t_total_u2 #concatena las dos unidades de la P1
 
     t_espera_p1 = t_espera_u1 + t_espera_u2
-
-
-    '''muestras_t_total = np.random.exponential(stats.mean(t_total_p2), len(t_total_p2)) #genera muestras de una exponencial con la media sacada de los tiempos generados
-
-    plt.figure(1)
-    plt.hist(t_espera_u1, bins = "sturges", align = "left")
-    plt.figure(2)
-    plt.hist(t_total_p2, bins = "sturges", align = "left")
-    plt.figure(3)
-    plt.hist(t_atencion_u1, bins = "sturges", align = "left")
-    plt.figure(4)
-    plt.hist(muestras_t_total, bins = "sturges", align = "left") #acá me fijo cómo sería una dist exponencial con la media sacada del tiempo de atención total
-    plt.show()
-
-    plt.subplot(221).set_title("Tiempo espera u1")
-    plt.hist(t_espera_u1, bins = "sturges", align = "left") #cantidad de azules a la izq
-    plt.subplot(222).set_title("Tiempo espera u2")
-    plt.hist(t_espera_u2, bins = "sturges", align = "left") #cantidad de azules a la der
-    plt.subplot(223).set_title("Tiempo espera p1")
-    plt.hist(t_espera_p1, bins = "sturges", align = "left") #cantidad de rojos a la izq
-    plt.subplot(224).set_title("tiempo espera p2")
-    plt.hist(t_espera_p2, bins = "sturges", align = "left") #cantidad de rojos a la der
-    plt.show()
-    '''
-        
+       
     print("\nMedia de tiempo de espera P1 en horas: ", stats.mean(t_espera_p1))
     print("Media de tiempo de espera P2 en horas: ", stats.mean(t_espera_p2))
     
