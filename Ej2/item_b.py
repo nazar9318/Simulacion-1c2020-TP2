@@ -39,16 +39,16 @@ quantity_without_processing = 0
 for t in range(1000000):
 
     server_is_empty = True
-    print("lo que hay en el server {}".format(quantity_in_server))
-    print("lo que hay en el queue {}".format(quantity_in_queue))
+    #print("lo que hay en el server {}".format(quantity_in_server))
+    #print("lo que hay en el queue {}".format(quantity_in_queue))
     if request_was_received():
-        print("se recibio {}".format(t))
+        #print("se recibio {}".format(t))
         quantity_in_queue = quantity_in_queue + 1
     
     will_be_processed = request_will_be_proccesed()
     quantity_in_queue_before = quantity_in_queue
-    print("will_be_processed {}".format(will_be_processed))
-    print("quantity in queue {}".format(quantity_in_queue))
+    #print("will_be_processed {}".format(will_be_processed))
+    #print("quantity in queue {}".format(quantity_in_queue))
     if (will_be_processed or server_is_empty) and quantity_in_queue_before > 0:
         #print("se saco {}".format(t))
         quantity_in_queue = quantity_in_queue - 1
