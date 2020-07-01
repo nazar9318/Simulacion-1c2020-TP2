@@ -6,7 +6,7 @@ def request_was_received():
     return rand <= 0.025
 
 
-def request_was_proccesed():
+def request_will_be_proccesed():
     rand = random.random()
     return rand <= 0.0333
 
@@ -17,35 +17,62 @@ def register_state(state,quantity_by_state):
         quantity_by_state[state] = 1
 
 
+def grafic_histogram(histogram,title):
+    keys = list(histogram.keys())
+    keys.sort()
+    print("keys:"+str(keys))
+    values = list(map(lambda key: histogram[key],keys))
+    print("values:"+str(values))
+    plt.bar([str(i) for i in keys], values, color='g')
+    plt.suptitle(title, fontsize=18)
+    plt.show()
+
 quantity_in_queue = 0
-
+quantity_in_server = 0
+quantity_in_server_in_t = []
 quantity_in_queue_in_t = []
+quantity_by_state_in_server = {}
+quantity_by_state_in_queue = {}
 
-quantity_by_state = {}
-quantity_of_processing = 0
+quantity_without_processing = 0
 
-for t in range(100000):
+for t in range(10000000):
+
+    server_is_processing = False
+    #print("lo que hay en el server {}".format(quantity_in_server))
+    #print("lo que hay en el queue {}".format(quantity_in_queue))
     if request_was_received():
+        #print("se recibio {}".format(t))
         quantity_in_queue = quantity_in_queue + 1
-    if request_was_proccesed()  and quantity_in_queue > 0:
+    
+    will_be_processed = request_will_be_proccesed()
+    quantity_in_queue_before = quantity_in_queue
+    #print("will_be_processed {}".format(will_be_processed))
+    #print("quantity in queue {}".format(quantity_in_queue))
+    if (will_be_processed not server_is_processing) and quantity_in_queue_before > 0:
+        #print("se saco {}".format(t))
         quantity_in_queue = quantity_in_queue - 1
-        quantity_of_processing = quantity_of_processing + 1
-    quantity_in_queue_in_t.append(quantity_in_queue)
-    register_state(quantity_in_queue,quantity_by_state)
+        server_is_processing = True
+
+    
+    if server_is_processing:
+        quantity_without_processing += 1
+        server_is_processing = False
+    
+    quantity_in_server = quantity_in_queue + 1 if server_is_processing else quantity_in_queue
+    quantity_in_server_in_t.append(quantity_in_server)
+    register_state(quantity_in_server,quantity_by_state_in_server)
+    register_state(quantity_in_queue,quantity_by_state_in_queue)
+
+#print("cantidad de veces sin procesar {}".format(quantity_without_processing))
+#print("vector t en el server {}".format(quantity_in_server_in_t))
 
 
+#grafic_histogram(quantity_by_state_in_server,"Solicitudes en el servidor")
+#grafic_histogram(quantity_by_state_in_queue,"Solicitudes en la cola")
 
-keys = list(quantity_by_state.keys())
-keys.sort()
-print("keys:"+str(keys))
-values = list(map(lambda key: quantity_by_state[key],keys))
-print("values:"+str(values))
-print("quantity of processing",quantity_of_processing)
-
-plt.bar([str(i) for i in keys], values, color='g')
-plt.show()
-
-plt.plot(quantity_in_queue_in_t)
-plt.show()
+#plt.plot(quantity_in_server_in_t)
+#plt.suptitle('Pedidos en el servidor', fontsize=20)
+#plt.show()
 
 
