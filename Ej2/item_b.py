@@ -36,30 +36,31 @@ quantity_by_state_in_queue = {}
 
 quantity_without_processing = 0
 
-for t in range(10000000):
+for t in range(100):
 
-    server_is_processing = False
-    #print("lo que hay en el server {}".format(quantity_in_server))
-    #print("lo que hay en el queue {}".format(quantity_in_queue))
+    server_is_empty = True
+    print("lo que hay en el server {}".format(quantity_in_server))
+    print("lo que hay en el queue {}".format(quantity_in_queue))
     if request_was_received():
-        #print("se recibio {}".format(t))
+        print("se recibio {}".format(t))
         quantity_in_queue = quantity_in_queue + 1
     
     will_be_processed = request_will_be_proccesed()
     quantity_in_queue_before = quantity_in_queue
-    #print("will_be_processed {}".format(will_be_processed))
-    #print("quantity in queue {}".format(quantity_in_queue))
-    if (will_be_processed not server_is_processing) and quantity_in_queue_before > 0:
+    print("will_be_processed {}".format(will_be_processed))
+    print("quantity in queue {}".format(quantity_in_queue))
+    if (will_be_processed or server_is_empty) and quantity_in_queue_before > 0:
         #print("se saco {}".format(t))
         quantity_in_queue = quantity_in_queue - 1
-        server_is_processing = True
+        server_is_empty = False
 
+    elif not server_is_empty and will_be_processed and quantity_in_queue_before == 0:
+        server_is_empty = True
     
-    if server_is_processing:
+    if server_is_empty:
         quantity_without_processing += 1
-        server_is_processing = False
     
-    quantity_in_server = quantity_in_queue + 1 if server_is_processing else quantity_in_queue
+    quantity_in_server = quantity_in_queue + 1 if server_is_empty else quantity_in_queue
     quantity_in_server_in_t.append(quantity_in_server)
     register_state(quantity_in_server,quantity_by_state_in_server)
     register_state(quantity_in_queue,quantity_by_state_in_queue)
@@ -68,11 +69,11 @@ for t in range(10000000):
 #print("vector t en el server {}".format(quantity_in_server_in_t))
 
 
-#grafic_histogram(quantity_by_state_in_server,"Solicitudes en el servidor")
-#grafic_histogram(quantity_by_state_in_queue,"Solicitudes en la cola")
+grafic_histogram(quantity_by_state_in_server,"Solicitudes en el servidor")
+grafic_histogram(quantity_by_state_in_queue,"Solicitudes en la cola")
 
-#plt.plot(quantity_in_server_in_t)
-#plt.suptitle('Pedidos en el servidor', fontsize=20)
-#plt.show()
+plt.plot(quantity_in_server_in_t)
+plt.suptitle('Pedidos en el servidor', fontsize=20)
+plt.show()
 
 
