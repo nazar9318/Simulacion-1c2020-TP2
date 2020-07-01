@@ -36,7 +36,7 @@ quantity_by_state_in_queue = {}
 
 quantity_without_processing = 0
 
-for t in range(100):
+for t in range(1000000):
 
     server_is_empty = True
     print("lo que hay en el server {}".format(quantity_in_server))
