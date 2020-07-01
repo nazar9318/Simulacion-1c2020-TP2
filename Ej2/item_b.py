@@ -65,7 +65,7 @@ for t in range(1000000):
     register_state(quantity_in_server,quantity_by_state_in_server)
     register_state(quantity_in_queue,quantity_by_state_in_queue)
 
-#print("cantidad de veces sin procesar {}".format(quantity_without_processing))
+print("cantidad de veces sin procesar {}".format(quantity_without_processing))
 #print("vector t en el server {}".format(quantity_in_server_in_t))
 
 
